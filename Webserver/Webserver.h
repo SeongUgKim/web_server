@@ -19,6 +19,7 @@
 #include <ctype.h>
 #include <limits.h>
 #include <stdarg.h>
+#include <sys/sendfile.h>
 
 /* Configuration constants */
 #define DEFAULT_PORT 8080
@@ -72,4 +73,9 @@ int parse_http_request(const char* raw_request, http_request_t* request);
 void send_error_response(int clinet_socket, int status_code);
 void send_http_response(int client_socket, int status_code, const char* content_type, const char* body, size_t body_length);
 char* sanitize_path(const char* path);
+int is_safe_path(const char* request_path, const char* www_root);
+void serve_file(int client_socket, const char* filepath);
+char* get_mime_type(const char* filename);
+void cleanup_resources(void);
+
 #endif /* WEBSERVER_H */
